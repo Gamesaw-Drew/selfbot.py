@@ -22,8 +22,10 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import TextChannelConverter
 from contextlib import redirect_stdout
+from ext import embedtobox
 from ext.utility import load_json
 from urllib.parse import quote as uriquote
+from urllib.parse import urlparse
 from mtranslate import translate
 from lxml import etree
 from ext import fuzzy
@@ -34,11 +36,16 @@ import traceback
 import textwrap
 import wikipedia
 import aiohttp
+import datetime
 import inspect
+import random
 import re
 import io
 import os
+import asyncio
+import psutil
 import random
+import pip
 
 class Utility:
     '''Useful commands to make your life easier'''
@@ -160,7 +167,7 @@ class Utility:
         if not msg:
             return await ctx.send('Could not find that message!', delete_after=3.0)
 
-        em = discord.Embed(color=(ctx.message.author.top_role.color), description=msg.clean_content, timestamp=msg.created_at)
+        em = discord.Embed(color=(msg.author.top_role.color), description=msg.clean_content, timestamp=msg.created_at)
         print(str(ctx.message.author.top_role.color))
         em.set_author(name=str(msg.author), icon_url=msg.author.avatar_url)
 
